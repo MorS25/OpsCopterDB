@@ -20,7 +20,7 @@ class ArtifactsController extends FOSRestController {
      * @View()
      *
      * @param Request $request
-     * @return \FOS\RestBundle\View\View
+     * @return \FOS\RestBundle\View\View|\Symfony\Component\Form\Form
      */
     public function postArtifactGrantAction(Request $request) {
         $uploadRequest = new ArtifactUploadRequest();
@@ -39,11 +39,10 @@ class ArtifactsController extends FOSRestController {
 
     /**
      * @View()
-     * @param Request $request
      * @param $artifact_id
      * @return \FOS\RestBundle\View\View
      */
-    public function getArtifactGrantAction(Request $request, $artifact_id) {
+    public function getArtifactGrantAction($artifact_id) {
         $artifact = $this->getArtifact($artifact_id);
         $mapper = $this->getMapper();
         $mapper->validateDownloadGrantRequest($artifact);
@@ -99,11 +98,11 @@ class ArtifactsController extends FOSRestController {
     }
 
     /**
-     * @param Request $request
+     * @View()
      * @param $artifact_id
      * @return \Symfony\Component\Form\Form
      */
-    public function editArtifactAction(Request $request, $artifact_id) {
+    public function editArtifactAction($artifact_id) {
         $artifact = $this->getArtifact($artifact_id);
         return $this->createForm(new ArtifactType(), $artifact);
     }
