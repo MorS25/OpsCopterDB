@@ -6,4 +6,6 @@ php:
 install:
   - composer install --dev
 
-script: composer validate && phpunit -c app/
+script:
+  - composer validate
+  - phpunit -c app/
