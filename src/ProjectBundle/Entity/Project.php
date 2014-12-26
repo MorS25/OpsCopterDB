@@ -29,6 +29,9 @@ class Project {
      */
     protected $description;
 
+    /**
+     * @param string $id
+     */
     public function __construct($id = NULL) {
         $this->id = $id;
     }

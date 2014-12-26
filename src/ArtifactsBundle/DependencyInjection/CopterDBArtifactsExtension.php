@@ -2,14 +2,10 @@
 
 namespace OpsCopter\DB\ArtifactsBundle\DependencyInjection;
 
-use Aws\Common\Aws;
-use Aws\Common\Credentials\Credentials;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
-use Symfony\Component\Validator\Tests\Fixtures\Reference;
 
 /**
  * This is the class that loads and manages your bundle configuration
