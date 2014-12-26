@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Edit</h1>
+    {% if (form is defined) %}
+        <form action="{{ url('put_user', {user: user.id}) }}" method="POST" {{ form_enctype(form) }}>
+            <input type="hidden" name="_method" value="put" />
+            {{ form_widget(form) }}
+        </form>
+    {% endif %}
+{% endblock %}

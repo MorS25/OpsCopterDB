@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>New Request</h1>
+    {% if (form is defined) %}
+        <form action="{{ url('post_request') }}" method="POST" {{ form_enctype(form) }}>
+            {{ form_widget(form) }}
+        </form>
+    {% endif %}
+{% endblock %}

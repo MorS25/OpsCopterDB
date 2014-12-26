@@ -1,0 +1,4 @@
+services:
+#    copter_db_server.example:
+#        class: OpsCopter\DB\ServerBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="aws.factory.prototype" class="Aws\Common\Aws" abstract="true">
+
+        </service>
+
+        <service id="artifacts.aws.factory" class="Aws\Common\Aws">
+            <factory class="Aws\Common\Aws" method="factory"/>
+            <argument>%artifacts.aws.config%</argument>
+        </service>
+
+        <service id="artifacts.aws.s3" class="Aws\S3\S3Client">
+            <factory service="artifacts.aws.factory" method="get"/>
+            <argument>s3</argument>
+        </service>
+
+        <service id="artifacts.aws.sts" class="Aws\Sts\StsClient">
+            <factory service="artifacts.aws.factory" method="get"/>
+            <argument>sts</argument>
+        </service>
+
+        <service id="artifacts.mapper" class="OpsCopter\DB\ArtifactsBundle\Grants\S3GrantsManager">
+            <argument type="service" id="artifacts.aws.s3"/>
+            <argument type="service" id="artifacts.aws.sts"/>
+            <argument>%artifacts.s3.bucket%</argument>
+            <argument>%artifacts.sts.roleArn%</argument>
+        </service>
+
+    </services>
+</container>

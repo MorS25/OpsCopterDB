@@ -1,0 +1,55 @@
+<?php
+
+namespace LastCall\BackpublishBundle\Entity;
+
+use AppBundle\Entity\Project;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="artifact")
+ */
+class Artifact {
+
+    const UPLOAD_IN_PROGRESS = 1;
+    const UPLOAD_COMPLETE = 2;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Project", inversedBy="repositories")
+     */
+    protected $project;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $path;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $filesystem;
+
+    /**
+     * @ORM\Column(type="string", length=1024)
+     */
+    protected $filename;
+
+
+    /**
+     * @ORM\Column(type="string", length=256)
+     */
+    protected $type;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $status = self::UPLOAD_IN_PROGRESS;
+}

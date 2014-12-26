@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Users</h1>
+    {% for user in data %}
+        <li><a href="{{ path('get_user', {user: user.id}) }}">{{ user.username }}</a></li>
+    {% endfor %}
+{% endblock %}

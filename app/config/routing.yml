@@ -1,0 +1,11 @@
+copter_db_server:
+    resource: "@CopterDBServerBundle/Resources/config/routing.yml"
+    type: rest
+
+copter_db_project:
+    resource: "@CopterDBProjectBundle/Resources/config/routing.yml"
+    type: rest
+
+copter_db_artifact:
+    resource: "@CopterDBArtifactsBundle/Resources/config/routing.yml"
+    type: rest

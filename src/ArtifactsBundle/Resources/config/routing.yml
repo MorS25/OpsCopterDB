@@ -1,0 +1,4 @@
+
+copter_db_artifact.artifact:
+  resource: @CopterDBArtifactsBundle/Controller/ArtifactsController.php
+  type: "rest"

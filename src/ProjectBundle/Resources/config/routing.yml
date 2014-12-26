@@ -1,0 +1,3 @@
+copter_db_project.project:
+  resource: "@CopterDBProjectBundle/Controller/ProjectsController.php"
+  type: rest
