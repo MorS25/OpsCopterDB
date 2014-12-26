@@ -4,7 +4,6 @@ namespace OpsCopter\DB\ServerBundle\DataFixtures\ORM;
 
 use OpsCopter\DB\ServerBundle\Entity\Server;
 use OpsCopter\DB\ServerBundle\Entity\ServerFact;
-use OpsCopter\DB\ServerBundle\Entity\User;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;

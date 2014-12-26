@@ -3,7 +3,6 @@
 namespace OpsCopter\DB\ServerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -28,6 +27,10 @@ class ServerFact {
      */
     protected $value;
 
+    /**
+     * @param string $type
+     * @param string $value
+     */
     public function __construct($type = NULL, $value = NULL) {
         $this->type = $type;
         $this->value = $value;

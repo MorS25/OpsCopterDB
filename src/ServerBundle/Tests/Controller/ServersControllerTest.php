@@ -46,6 +46,9 @@ class ServersControllerTest extends DatabaseWebTestCase
         $this->getServer('a', 404);
     }
 
+    /**
+     * @param string $id
+     */
     protected function getServer($id, $statusCode = 200) {
         if(empty($id)) {
             throw new \Exception("Server ID not specified.");

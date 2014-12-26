@@ -35,6 +35,9 @@ class Server {
      */
     protected $facts;
 
+    /**
+     * @param null|string $id
+     */
     public function __construct($id) {
         $this->id = $id;
         $this->facts = new ArrayCollection();
@@ -58,7 +61,7 @@ class Server {
      * Set description
      *
      * @param string $description
-     * @return Project
+     * @return Server
      */
     public function setDescription($description)
     {
@@ -115,7 +118,7 @@ class Server {
     /**
      * Add facts
      *
-     * @param \OpsCopter\DB\ServerBundle\Entity\ServerFact $facts
+     * @param \OpsCopter\DB\ServerBundle\Entity\ServerFact $fact
      * @return Server
      */
     public function addFact(\OpsCopter\DB\ServerBundle\Entity\ServerFact $fact)
@@ -129,7 +132,7 @@ class Server {
     /**
      * Remove facts
      *
-     * @param \OpsCopter\DB\ServerBundle\Entity\ServerFact $facts
+     * @param \OpsCopter\DB\ServerBundle\Entity\ServerFact $fact
      */
     public function removeFact(\OpsCopter\DB\ServerBundle\Entity\ServerFact $fact)
     {
@@ -146,7 +149,10 @@ class Server {
         return $this->facts;
     }
 
-    public function getFactValue($name) {
+    /**
+ * @param string $name
+ */
+public function getFactValue($name) {
         return isset($this->facts[$name]) ? $this->facts[$name]->getValue() : NULL;
     }
 }
