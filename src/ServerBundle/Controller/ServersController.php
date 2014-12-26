@@ -82,7 +82,7 @@ class ServersController extends FOSRestController {
             $em->persist($server);
             $em->flush();
 
-            return $this->routeRedirectView('get_server', array('id' => $server->getId()));
+            return $this->routeRedirectView('get_server', array('server_id' => $server->getId()));
         }
 
         return $form;
@@ -94,12 +94,12 @@ class ServersController extends FOSRestController {
      *
      * @View(templateVar="server")
      *
-     * @param int $server The ID of the server
+     * @param int $server_id The ID of the server
      *
      * @return Server
      */
-    public function getServerAction($id) {
-        return $this->getServer($id);
+    public function getServerAction($server_id) {
+        return $this->getServer($server_id);
     }
 
     /**
@@ -108,12 +108,12 @@ class ServersController extends FOSRestController {
      * @View(templateVar="server")
      * @Route(requirements={"_format"="html"})
      *
-     * @param string|int $server The identifier of the server
+     * @param int $server_id The identifier of the server
      *
      * @return \Symfony\Component\Form\FormTypeInterface;
      */
-    public function editServerAction($id) {
-        $server = $this->getServer($id);
+    public function editServerAction($server_id) {
+        $server = $this->getServer($server_id);
         return $this->createForm(new ServerType(), $server);
     }
 
@@ -123,12 +123,12 @@ class ServersController extends FOSRestController {
      * @View()
      *
      * @param Request $request the request object
-     * @param int $server The id of the server
+     * @param int $server_id The id of the server
      *
      * @return \Symfony\Component\Form\FormTypeInterface|\FOS\RestBundle\View\RouteRedirectView;
      */
-    public function putServerAction(Request $request, $id) {
-        $server = $this->getServer($id);
+    public function putServerAction(Request $request, $server_id) {
+        $server = $this->getServer($server_id);
         $form = $this->createForm(new ServerType(), $server);
 
         $form->submit($request);
@@ -137,7 +137,7 @@ class ServersController extends FOSRestController {
             $em->persist($server);
             $em->flush();
 
-            return $this->routeRedirectView('get_server', array('id' => $server->getId()));
+            return $this->routeRedirectView('get_server', array('server_id' => $server->getId()));
         }
 
         return $form;
@@ -150,12 +150,12 @@ class ServersController extends FOSRestController {
      *
      * @View()
      *
-     * @param int $server The ID of the server
+     * @param int $server_id The ID of the server
      *
      * @return \Symfony\Component\Form\FormTypeInterface
      */
-    public function removeServerAction($id) {
-        $this->getServer($id);
+    public function removeServerAction($server_id) {
+        $this->getServer($server_id);
         return $this->createForm(new ConfirmType());
     }
 
@@ -165,12 +165,12 @@ class ServersController extends FOSRestController {
      * @View()
      *
      * @param Request $request the request object
-     * @param string|int $server The identifier of the server
+     * @param int $server_id The identifier of the server
      *
      * @return \Symfony\Component\Form\FormTypeInterface|\FOS\RestBundle\View\RouteRedirectView;
      */
-    public function deleteServerAction(Request $request, $id) {
-        $server = $this->getServer($id);
+    public function deleteServerAction(Request $request, $server_id) {
+        $server = $this->getServer($server_id);
         $form = $this->createForm(new ConfirmType());
 
         $form->submit($request);
