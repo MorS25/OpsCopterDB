@@ -26,6 +26,9 @@ class ArtifactUploadRequest {
         $this->filename = $filename;
     }
 
+    /**
+     * @return string
+     */
     public function getFilename() {
         return $this->filename;
     }
