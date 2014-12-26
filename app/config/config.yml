@@ -80,7 +80,7 @@ services:
 fos_rest:
   disable_csrf_role: ROLE_API
   routing_loader:
-    default_format: html
+    default_format: json
   view:
     view_response_listener: true
 
@@ -88,8 +88,8 @@ copter_db_artifacts:
     aws_client:
         key: %aws_client_key%
         secret: %aws_client_secret%
-    bucket: rfbayliss_default
-    role_arn: arn:aws:iam::572528522561:role/backpublish_publisher
+    bucket: %aws_artifact_bucket%
+    role_arn: %aws_artifact_role%
 
 #jms_serializer:
 #    camel_case_naming_strategy.class: JMS\Serializer\Naming\IdenticalPropertyNamingStrategy
