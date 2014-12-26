@@ -9,7 +9,6 @@ use OpsCopter\DB\ServerBundle\Form\Type\ServerType;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Util\Codes;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,12 +35,6 @@ class ServersController extends FOSRestController {
     /**
      * Fetch all servers
      *
-     * @APIDoc(
-     *  resource = true,
-     *  statusCodes = {
-     *      200 = "Returned when successful"
-     *  }
-     * )
      * @View()
      *
      * @return Server[]
@@ -59,15 +52,6 @@ class ServersController extends FOSRestController {
     /**
      * Displays a form for creating a new server
      *
-     * @ApiDoc(
-     *   resource = true,
-     *   input = "OpsCopter\DB\ServerBundle\Form\Type\ServerType",
-     *   statusCodes = {
-     *     200 = "Returned when successful",
-     *     400 = "Returned when the server is not found"
-     *   }
-     * )
-     *
      * @View()
      *
      * @Route(requirements={"_format"="html"})
@@ -80,15 +64,6 @@ class ServersController extends FOSRestController {
 
     /**
      * Creates a new server from the submitted data
-     *
-     * @ApiDoc(
-     *   resource = true,
-     *   input = "OpsCopter\DB\ServerBundle\Form\Type\ServerType",
-     *   statusCodes = {
-     *     200 = "Returned when successful",
-     *     400 = "Returned when the request has errors"
-     *   }
-     * )
      *
      * @View(statusCode = Codes::HTTP_BAD_REQUEST)
      *
@@ -117,13 +92,6 @@ class ServersController extends FOSRestController {
     /**
      * Returns a single server
      *
-     * @APIDoc(
-     *  output = "OpsCopter\DB\ServerBundle\Entity\Server",
-     *  statusCodes = {
-     *      200 = "Returned when successful",
-     *      404 = "Returned when the server is not found"
-     *  }
-     * )
      * @View(templateVar="server")
      *
      * @param int $server The ID of the server
@@ -136,15 +104,6 @@ class ServersController extends FOSRestController {
 
     /**
      * Displays a form for editing a server
-     *
-     * @ApiDoc(
-     *   resource = true,
-     *   input = "OpsCopter\DB\ServerBundle\Form\Type\ServerType",
-     *   statusCodes = {
-     *     200 = "Returned when successful",
-     *     400 = "Returned when the server is not found"
-     *   }
-     * )
      *
      * @View(templateVar="server")
      * @Route(requirements={"_format"="html"})
@@ -160,15 +119,6 @@ class ServersController extends FOSRestController {
 
     /**
      * Updates a single server
-     *
-     * @APIDoc(
-     *  resource = true,
-     *  input = "OpsCopter\DB\ServerBundle\Form\Type\ServerType",
-     *  statusCodes = {
-     *      201 = "Returned when a new server is created",
-     *      400 = "Returned when the request has errors"
-     *  }
-     * )
      *
      * @View()
      *
@@ -196,15 +146,6 @@ class ServersController extends FOSRestController {
     /**
      * Displays a form for removing a single server
      *
-     * @ApiDoc(
-     *   resource = true,
-     *   input = "OpsCopter\DB\ServerBundle\Form\Type\ConfirmType",
-     *   statusCodes = {
-     *     200 = "Returned when successful",
-     *     400 = "Returned when the server is not found"
-     *   }
-     * )
-     *
      * @Route(requirements={"_format"="html"})
      *
      * @View()
@@ -220,13 +161,6 @@ class ServersController extends FOSRestController {
 
     /**
      * Deletes a single server.
-     *
-     * @ApiDoc(
-     *   resource = true,
-     *   statusCodes={
-     *     204 = "Returned when successful"
-     *   }
-     * )
      *
      * @View()
      *

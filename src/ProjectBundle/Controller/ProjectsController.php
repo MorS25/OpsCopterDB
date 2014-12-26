@@ -11,7 +11,6 @@ use Doctrine\Common\Util\Debug;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Util\Codes;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,12 +41,6 @@ class ProjectsController extends FOSRestController
     /**
      * Fetch all projects
      *
-     * @APIDoc(
-     *  resource = true,
-     *  statusCodes = {
-     *      200 = "Returned when successful"
-     *  }
-     * )
      * @View()
      *
      * @return Project[]
@@ -64,15 +57,6 @@ class ProjectsController extends FOSRestController
     /**
      * Displays a form for creating a new project
      *
-     * @ApiDoc(
-     *   resource = true,
-     *   input = "OpsCopter\DB\ProjectBundle\Form\Type\ProjectType",
-     *   statusCodes = {
-     *     200 = "Returned when successful",
-     *     400 = "Returned when the project is not found"
-     *   }
-     * )
-     *
      * @View()
      *
      * @Route(requirements={"_format"="html"})
@@ -85,15 +69,6 @@ class ProjectsController extends FOSRestController
 
     /**
      * Creates a new Project from the submitted data
-     *
-     * @ApiDoc(
-     *   resource = true,
-     *   input = "OpsCopter\DB\ProjectBundle\Form\Type\ProjectType",
-     *   statusCodes = {
-     *     200 = "Returned when successful",
-     *     400 = "Returned when the request has errors"
-     *   }
-     * )
      *
      * @View(statusCode = Codes::HTTP_BAD_REQUEST)
      *
@@ -121,13 +96,6 @@ class ProjectsController extends FOSRestController
     /**
      * Returns a single project
      *
-     * @APIDoc(
-     *  output = "OpsCopter\DB\ProjectBundle\Entity\Project",
-     *  statusCodes = {
-     *      200 = "Returned when successful",
-     *      404 = "Returned when the project is not found"
-     *  }
-     * )
      * @View(templateVar="project")
      *
      * @param string|int $project_id The identifier of the project
@@ -140,15 +108,6 @@ class ProjectsController extends FOSRestController
 
     /**
      * Displays a form for editing a project
-     *
-     * @ApiDoc(
-     *   resource = true,
-     *   input = "OpsCopter\DB\ProjectBundle\Form\Type\ProjectType",
-     *   statusCodes = {
-     *     200 = "Returned when successful",
-     *     400 = "Returned when the project is not found"
-     *   }
-     * )
      *
      * @View(templateVar="project")
      * @Route(requirements={"_format"="html"})
@@ -165,15 +124,6 @@ class ProjectsController extends FOSRestController
 
     /**
      * Updates a single project
-     *
-     * @APIDoc(
-     *  resource = true,
-     *  input = "OpsCopter\DB\ProjectBundle\Form\Type\ProjectType",
-     *  statusCodes = {
-     *      201 = "Returned when a new project is created",
-     *      400 = "Returned when the request has errors"
-     *  }
-     * )
      *
      * @View()
      *
@@ -201,15 +151,6 @@ class ProjectsController extends FOSRestController
     /**
      * Displays a form for removing a single project
      *
-     * @ApiDoc(
-     *   resource = true,
-     *   input = "OpsCopter\DB\ProjectBundle\Form\Type\ConfirmType",
-     *   statusCodes = {
-     *     200 = "Returned when successful",
-     *     400 = "Returned when the project is not found"
-     *   }
-     * )
-     *
      * @Route(requirements={"_format"="html"})
      *
      * @View()
@@ -225,13 +166,6 @@ class ProjectsController extends FOSRestController
 
     /**
      * Deletes a single project.
-     *
-     * @ApiDoc(
-     *   resource = true,
-     *   statusCodes={
-     *     204 = "Returned when successful"
-     *   }
-     * )
      *
      * @View(statusCode = Codes::HTTP_BAD_REQUEST)
      *
