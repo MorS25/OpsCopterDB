@@ -7,6 +7,3 @@ install:
   - composer install --dev
 
 script: composer validate && phpunit -c app/
-
-after_script:
-  - cat app/logs/test.log
