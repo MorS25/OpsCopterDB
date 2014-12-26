@@ -21,3 +21,5 @@ parameters:
 
     aws_client_key: ~
     aws_client_secret: ~
+    aws_artifact_bucket: ~
+    aws_artifact_role: ~
