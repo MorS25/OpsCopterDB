@@ -6,16 +6,12 @@ use OpsCopter\DB\Common\Utility\ControllerGetters;
 use OpsCopter\DB\ProjectBundle\Entity\Project;
 use OpsCopter\DB\ProjectBundle\Form\Type\ProjectType;
 use OpsCopter\DB\Common\Form\Type\ConfirmType;
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Util\Debug;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Util\Codes;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class ProjectsController
@@ -157,7 +153,7 @@ class ProjectsController extends FOSRestController
      *
      * @param string|int $project_id The identifier of the project
      *
-     * @return \Symfony\Component\Form\FormTypeInterface
+     * @return \Symfony\Component\Form\Form
      */
     public function removeProjectAction($project_id) {
         $this->getProject($project_id); // Ensure a project.

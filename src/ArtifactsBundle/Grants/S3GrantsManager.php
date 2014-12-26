@@ -2,8 +2,6 @@
 
 namespace OpsCopter\DB\ArtifactsBundle\Grants;
 
-use OpsCopter\DB\ProjectBundle\Entity\Project;
-use Aws\Common\Exception\InvalidArgumentException;
 use Aws\S3\Exception\NoSuchKeyException;
 use Aws\S3\S3Client;
 use Aws\Sts\StsClient;
@@ -86,6 +84,9 @@ class S3GrantsManager implements GrantsManager {
         }
     }
 
+    /**
+     * @param string $op
+     */
     protected function getTemporaryCredentials($op, $bucket, $key) {
         $response = $this->stsClient->assumeRole(array(
             'RoleArn' => $this->roleArn,

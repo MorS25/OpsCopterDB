@@ -181,7 +181,7 @@ class ArtifactsController extends FOSRestController {
     }
 
     /**
-     * @return \Doctrine\Common\Persistence\ObjectManager|object
+     * @return \Doctrine\Common\Persistence\ObjectManager
      */
     protected function getManager() {
         return $this->getDoctrine()->getManager();

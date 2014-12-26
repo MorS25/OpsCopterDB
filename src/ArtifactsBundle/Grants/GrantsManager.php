@@ -13,7 +13,7 @@ interface GrantsManager {
      * This function must throw an exception if something is invalid.
      *
      * @param ArtifactUploadRequest $request
-     * @return mixed
+     * @return boolean
      */
     public function validateUploadGrantRequest(ArtifactUploadRequest $request);
 
@@ -21,7 +21,7 @@ interface GrantsManager {
      * Given a validated upload grant request, get the grant.
      *
      * @param ArtifactUploadRequest $request
-     * @return mixed
+     * @return \OpsCopter\DB\ArtifactsBundle\Entity\ArtifactGrant
      */
     public function getUploadGrant(ArtifactUploadRequest $request);
 
@@ -31,7 +31,7 @@ interface GrantsManager {
      * This function must throw an exception if something is invalid.
      *
      * @param Artifact $artifact
-     * @return mixed
+     * @return boolean
      */
     public function validateDownloadGrantRequest(Artifact $artifact);
 
@@ -39,7 +39,7 @@ interface GrantsManager {
      * Given a validated download grant request, get the grant.
      *
      * @param Artifact $artifact
-     * @return mixed
+     * @return \OpsCopter\DB\ArtifactsBundle\Entity\ArtifactGrant
      */
     public function getDownloadGrant(Artifact $artifact);
 
