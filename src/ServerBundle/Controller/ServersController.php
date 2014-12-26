@@ -9,12 +9,9 @@ use OpsCopter\DB\ServerBundle\Form\Type\ServerType;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Util\Codes;
-use Symfony\Component\Debug\Debug;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ServersController extends FOSRestController {
 
@@ -152,7 +149,7 @@ class ServersController extends FOSRestController {
      *
      * @param int $server_id The ID of the server
      *
-     * @return \Symfony\Component\Form\FormTypeInterface
+     * @return \Symfony\Component\Form\Form
      */
     public function removeServerAction($server_id) {
         $this->getServer($server_id);
