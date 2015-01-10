@@ -3,7 +3,6 @@
 namespace OpsCopter\DB\ProjectBundle\Provider;
 
 use Github\Client;
-use Github\Exception\RuntimeException;
 use OpsCopter\DB\ProjectBundle\Entity\GithubProject;
 use OpsCopter\DB\ProjectBundle\Entity\Project;
 

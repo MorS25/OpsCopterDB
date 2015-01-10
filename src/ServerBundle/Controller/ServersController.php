@@ -166,6 +166,12 @@ class ServersController extends FOSRestController {
         return $form;
     }
 
+    /**
+     * Get a single server by ID
+     *
+     * @param $id
+     * @return Server
+     */
     protected function getServer($id) {
         if($server = $this->getDoctrine()->getManager()->find('CopterDBServerBundle:Server', $id)) {
             return $server;

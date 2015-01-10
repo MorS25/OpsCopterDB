@@ -3,7 +3,6 @@
 namespace OpsCopter\DB\ProjectBundle\Tests\Validator\Constraints;
 
 use OpsCopter\DB\ProjectBundle\ProjectTypeManager;
-use OpsCopter\DB\ProjectBundle\Provider\BitbucketProjectProvider;
 use OpsCopter\DB\ProjectBundle\Tests\Fixtures\DummyProjectProvider;
 use OpsCopter\DB\ProjectBundle\Validator\Constraints\ProjectUrl;
 use OpsCopter\DB\ProjectBundle\Validator\Constraints\ProjectUrlValidator;

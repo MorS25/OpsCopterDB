@@ -62,6 +62,9 @@ class ServerTest extends DatabaseKernelTestCase {
         $this->assertEquals(0, count($facts));
     }
 
+    /**
+     * @param $id
+     */
     protected function getServer($id) {
         return $this->em->find('CopterDBServerBundle:Server', $id);
     }
