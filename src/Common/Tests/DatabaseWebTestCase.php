@@ -7,7 +7,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader as DataFixturesLoader;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\BrowserKit\Client;
 
@@ -66,7 +66,7 @@ class DatabaseWebTestCase extends WebTestCase {
         $this->client = self::createPrivilegedClient();
     }
 
-    protected function preFixtures(Container $container) {
+    protected function preFixtures(ContainerInterface $container) {
         // Override elsewhere...
     }
 

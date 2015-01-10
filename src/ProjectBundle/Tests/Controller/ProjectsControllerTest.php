@@ -5,13 +5,13 @@ namespace OpsCopter\DB\ProjectBundle\Tests\Controller;
 use OpsCopter\DB\Common\Tests\DatabaseWebTestCase;
 use FOS\RestBundle\Util\Codes;
 use OpsCopter\DB\ProjectBundle\Tests\Fixtures\DummyProjectProvider;
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ProjectsControllerTest extends DatabaseWebTestCase
 {
     protected $provider;
 
-    protected function preFixtures(Container $container) {
+    protected function preFixtures(ContainerInterface $container) {
         $this->provider = new DummyProjectProvider('github');
         $container = static::$kernel->getContainer();
         $container->get('copter_db_project.type_manager')

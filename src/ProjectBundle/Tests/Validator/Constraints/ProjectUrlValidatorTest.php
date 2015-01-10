@@ -11,6 +11,11 @@ use Symfony\Component\Validator\Validation;
 
 class ProjectUrlValidatorTest extends AbstractConstraintValidatorTest {
 
+    /**
+     * @var ProjectUrlValidator
+     */
+    protected $validator;
+
     protected function getApiVersion()
     {
         return Validation::API_VERSION_2_5;
