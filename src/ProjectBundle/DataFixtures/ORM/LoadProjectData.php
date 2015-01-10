@@ -20,25 +20,7 @@ class LoadProjectData extends AbstractFixture implements OrderedFixtureInterface
         $project1->setDescription('A github project');
         $project1->setUri('https://github.com/rbayliss/OpsCopterDB');
         $manager->persist($project1);
-
-
-//        $relations = new BitbucketProject('relations');
-//        $relations->setName('Relations');
-//        $relations->setDescription('This project has relationships.');
-//        $relations->setUri('git@github.com/owner/project');
-//
-//        $manager->persist($relations);
-//
-//        $norelations = new GithubProject('no-relations');
-//        $norelations->setName('No Relations');
-//        $norelations->setDescription('This project has no relationships.');
-//        $norelations->setUri('git@github.com/owner/project');
-//
-//        $manager->persist($norelations);
-//
         $manager->flush();
-//
-//        $this->addReference('project-relations', $relations);
     }
 
     public function getOrder() {
