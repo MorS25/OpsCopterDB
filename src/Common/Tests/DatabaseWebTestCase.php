@@ -7,6 +7,8 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader as DataFixturesLoader;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\BrowserKit\Client;
 
@@ -35,6 +37,8 @@ class DatabaseWebTestCase extends WebTestCase {
             $tool->createSchema($metadata);
         }
 
+        $this->preFixtures($container);
+
         $paths = array();
         foreach (static::$kernel->getBundles() as $bundle) {
             $paths[] = $bundle->getPath().'/DataFixtures/ORM';
@@ -61,6 +65,10 @@ class DatabaseWebTestCase extends WebTestCase {
         $this->em = $entityManager;
 
         $this->client = self::createPrivilegedClient();
+    }
+
+    protected function preFixtures(Container $container) {
+        // Override elsewhere...
     }
 
     protected static function createPrivilegedClient(array $options = array(), array $server = array()) {

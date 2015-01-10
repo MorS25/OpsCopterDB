@@ -8,15 +8,24 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  * @ORM\Table(name="project")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="provider", type="string")
+ *
+ * The DiscriminatorMap is built by ProjectTypeDoctrineEventSubscriber
  */
-class Project {
+abstract class Project {
 
     /**
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(type="integer")
      * @ORM\Id()
-     * @Assert\NotBlank()
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $identifier;
 
     /**
      * @ORM\Column(type="string", length=256)
@@ -30,11 +39,10 @@ class Project {
     protected $description;
 
     /**
-     * @param string $id
+     * @ORM\Column(type="text", nullable=false)
+     * @var string
      */
-    public function __construct($id = NULL) {
-        $this->id = $id;
-    }
+    protected $uri;
 
     /**
      * Get id
@@ -45,12 +53,9 @@ class Project {
         return $this->id;
     }
 
-    public function setId($id) {
-        $this->id = $id;
-
-        return $this;
+    public function getIdentifier() {
+        return $this->identifier;
     }
-
 
     /**
      * Set name
@@ -97,4 +102,23 @@ class Project {
     {
         return $this->description;
     }
+
+    /**
+     * @return string
+     */
+    public function getUri()
+    {
+        return $this->uri;
+    }
+
+    /**
+     * @param $uri
+     * @return $this
+     */
+    public function setUri($uri)
+    {
+        $this->uri = $uri;
+        return $this;
+    }
+
 }

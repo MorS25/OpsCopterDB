@@ -4,13 +4,34 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
+    <parameters>
+
+        <parameter key="copter_db_project.types" type="collection">
+            <parameter key="github">OpsCopter\DB\ProjectBundle\Entity\GithubProject</parameter>
+            <parameter key="bitbucket">OpsCopter\DB\ProjectBundle\Entity\BitbucketProject</parameter>
+        </parameter>
+    </parameters>
+
     <services>
-        <service id="copter_db_project.example" class="OpsCopter\DB\ProjectBundle\Example">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+        <service id="copter_db_project.project_url_validator" class="OpsCopter\DB\ProjectBundle\Validator\Constraints\ProjectUrlValidator">
+            <argument type="service" id="copter_db_project.type_manager"/>
+            <tag name="validator.constraint_validator" alias="project_url_validator"/>
+        </service>
+        <service id="copter_db_project.github_api" class="Github\Client">
+
+        </service>
+        <service id="copter_db_project.provider.github" class="OpsCopter\DB\ProjectBundle\Provider\GithubProjectProvider">
+            <argument type="service" id="copter_db_project.github_api"/>
+            <tag name="copter_db_project.provider"/>
+        </service>
+        <service id="copter_db_project.provider.bitbucket" class="OpsCopter\DB\ProjectBundle\Provider\BitbucketProjectProvider">
+            <tag name="copter_db_project.provider"/>
+        </service>
+        <service id="copter_db_project.type_manager" class="OpsCopter\DB\ProjectBundle\ProjectTypeManager">
+        </service>
+        <service id="copter_db_project.project_type_doctrine_listener" class="OpsCopter\DB\ProjectBundle\Listener\ProjectTypeDoctrineEventSubscriber">
+            <argument type="service" id="copter_db_project.type_manager"/>
+            <tag name="doctrine.event_listener" event="loadClassMetadata"/>
         </service>
     </services>
-    -->
 </container>

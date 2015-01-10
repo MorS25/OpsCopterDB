@@ -2,13 +2,11 @@
 
 namespace OpsCopter\DB\ServerBundle\Tests\Entity;
 
-use OpsCopter\DB\Common\Utility\ControllerGetters;
 use OpsCopter\DB\ServerBundle\Entity\Server;
 use OpsCopter\DB\ServerBundle\Entity\ServerFact;
 use OpsCopter\DB\Common\Tests\DatabaseKernelTestCase;
 
 class ServerTest extends DatabaseKernelTestCase {
-    use ControllerGetters;
 
     public function testGetOs() {
         $server = new Server(__FUNCTION__);
@@ -62,5 +60,9 @@ class ServerTest extends DatabaseKernelTestCase {
 
         $facts = $this->em->getRepository('CopterDBServerBundle:ServerFact')->findBy(array('server' => $server->getId()));
         $this->assertEquals(0, count($facts));
+    }
+
+    protected function getServer($id) {
+        return $this->em->find('CopterDBServerBundle:Server', $id);
     }
 }

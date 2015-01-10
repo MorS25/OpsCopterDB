@@ -2,32 +2,17 @@
 
 namespace OpsCopter\DB\ServerBundle\Controller;
 
-use OpsCopter\DB\Common\Utility\ControllerGetters;
 use OpsCopter\DB\ServerBundle\Entity\Server;
 use OpsCopter\DB\Common\Form\Type\ConfirmType;
 use OpsCopter\DB\ServerBundle\Form\Type\ServerType;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Util\Codes;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ServersController extends FOSRestController {
-
-    use ControllerGetters;
-
-    protected $em;
-
-    public function setContainer(ContainerInterface $container = NULL) {
-        parent::setContainer($container);
-        if($this->container) {
-            $this->em = $this->getDoctrine()->getManager();
-        }
-        else {
-            $this->em = NULL;
-        }
-    }
 
     /**
      * Fetch all servers
@@ -179,5 +164,12 @@ class ServersController extends FOSRestController {
             return $this->routeRedirectView('get_servers');
         }
         return $form;
+    }
+
+    protected function getServer($id) {
+        if($server = $this->getDoctrine()->getManager()->find('CopterDBServerBundle:Server', $id)) {
+            return $server;
+        }
+        throw new NotFoundHttpException('Server not found.');
     }
 }

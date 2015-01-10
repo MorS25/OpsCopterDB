@@ -2,16 +2,15 @@
 
 namespace OpsCopter\DB\ProjectBundle\Tests\Entity;
 
-use OpsCopter\DB\ProjectBundle\Entity\Project;
+use OpsCopter\DB\ProjectBundle\Entity\GithubProject;
 use OpsCopter\DB\Common\Tests\DatabaseKernelTestCase;
-use OpsCopter\DB\Common\Utility\ControllerGetters;
 
 class ProjectTest extends DatabaseKernelTestCase {
-    use ControllerGetters;
 
     public function testCreateProject() {
-        $project = new Project('abc');
+        $project = new GithubProject('abc');
         $project->setName('ABC');
+        $project->setUri('http://google.com');
         $this->em->persist($project);
         $this->em->flush();
     }
@@ -20,26 +19,20 @@ class ProjectTest extends DatabaseKernelTestCase {
      * @expectedException \Doctrine\DBAL\Exception\NotNullConstraintViolationException
      */
     public function testCreateProjectNoName() {
-        $project = new Project('abc');
+        $project = new GithubProject('abc');
+        $project->setUri('http://google.com');
         $this->em->persist($project);
         $this->em->flush();
     }
 
     /**
-     * @expectedException \Doctrine\ORM\ORMException
+     * @expectedException \Doctrine\DBAL\Exception\NotNullConstraintViolationException
      */
-    public function testCreateProjectNoIdentifier() {
-        $project = new Project(NULL);
+    public function testCreateProjectNoUri() {
+        $project = new GithubProject('abc');
         $project->setName('ABC');
         $this->em->persist($project);
         $this->em->flush();
     }
 
-    public function testChangeProjectIdentifier() {
-        $project = $this->getProject('relations');
-        $project->setId('changed');
-        $this->em->persist($project);
-
-        $this->em->flush();
-    }
 }

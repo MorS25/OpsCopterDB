@@ -4,57 +4,60 @@ namespace OpsCopter\DB\ProjectBundle\Tests\Controller;
 
 use OpsCopter\DB\Common\Tests\DatabaseWebTestCase;
 use FOS\RestBundle\Util\Codes;
+use OpsCopter\DB\ProjectBundle\Tests\Fixtures\DummyProjectProvider;
+use Symfony\Component\DependencyInjection\Container;
 
 class ProjectsControllerTest extends DatabaseWebTestCase
 {
+    protected $provider;
+
+    protected function preFixtures(Container $container) {
+        $this->provider = new DummyProjectProvider('github');
+        $container = static::$kernel->getContainer();
+        $container->get('copter_db_project.type_manager')
+            ->setProviders(array($this->provider));
+    }
 
     public function testJSONCreateProject() {
         $this->client->request('POST', '/projects.json', array(
             'project' => array(
-                'id' => __FUNCTION__,
-                'name' => __FUNCTION__,
-            )
+                'uri' => 'https://github.com/rbayliss/OpsCopterDB',
+            ),
         ));
+        /** @var \Symfony\Component\HttpFoundation\Response $response */
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_CREATED);
-        $this->getProjectJson(__FUNCTION__);
     }
 
-    public function testJSONGetProjects() {
+    public function testJSONGetProject() {
+        $this->client->request('GET', '/projects/1.json');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response);
+
+        $project = json_decode($response->getContent());
+        $this->assertEquals('rbayliss/OpsCopterDB', $project->identifier);
+        $this->assertEquals('OpsCopterDB', $project->name);
+        $this->assertEquals('A github project', $project->description);
+        $this->assertEquals('https://github.com/rbayliss/OpsCopterDB', $project->uri);
+    }
+
+    public function testJsonGetProjects() {
         $this->client->request('GET', '/projects.json');
-        $this->assertJsonResponse($this->client->getResponse());
-        $this->assertTrue((bool) strstr($this->client->getResponse()->getContent(), 'no-relations'));
-    }
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response);
 
-    public function testJSONUpdateProject() {
-        $this->client->request('PUT', '/projects/no-relations.json', array(
-            'project' => array(
-                'id' => 'no-relations-updated',
-                'name' => 'updated',
-            )
-        ));
-        $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_CREATED);
-        $project = $this->getProjectJson('no-relations-updated');
-        $this->assertEquals('updated', $project->name, 'Project was updated.');
+        $object = json_decode($response->getContent());
+        $project = $object[0];
+        $this->assertEquals('rbayliss/OpsCopterDB', $project->identifier);
+        $this->assertEquals('OpsCopterDB', $project->name);
+        $this->assertEquals('A github project', $project->description);
+        $this->assertEquals('https://github.com/rbayliss/OpsCopterDB', $project->uri);
     }
 
     public function testJSONDeleteProject() {
-        $this->client->request('DELETE', '/projects/no-relations.json');
+        $this->client->request('DELETE', '/projects/1.json');
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_CREATED);
-        $this->getProjectJson('no-relations', 404);
+        $this->client->request('GET', '/projects/1.json');
+        $this->assertJsonResponse($this->client->getResponse(), 404);
     }
-
-    public function testGetProjectById() {
-        $projectA = $this->getProjectJson('no-relations');
-        $projectB = $this->getProjectJson($projectA->id);
-        $this->assertEquals($projectA, $projectB);
-    }
-
-    protected function getProjectJson($id, $statusCode = 200) {
-        $this->client->request('GET', '/projects/' . $id . '.json');
-        $this->assertJsonResponse($this->client->getResponse(), $statusCode);
-        return json_decode($this->client->getResponse()->getContent());
-    }
-
-
 }

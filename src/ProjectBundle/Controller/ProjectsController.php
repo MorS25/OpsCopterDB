@@ -2,16 +2,18 @@
 
 namespace OpsCopter\DB\ProjectBundle\Controller;
 
-use OpsCopter\DB\Common\Utility\ControllerGetters;
 use OpsCopter\DB\ProjectBundle\Entity\Project;
-use OpsCopter\DB\ProjectBundle\Form\Type\ProjectType;
+use OpsCopter\DB\ProjectBundle\Entity\ProjectStub;
 use OpsCopter\DB\Common\Form\Type\ConfirmType;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Util\Codes;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use OpsCopter\DB\ProjectBundle\Form\Type\ProjectUriType;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use OpsCopter\DB\ProjectBundle\ProjectTypeManager;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class ProjectsController
@@ -19,20 +21,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  */
 class ProjectsController extends FOSRestController
 {
-    use ControllerGetters;
-
-    protected $em;
-
-    public function setContainer(ContainerInterface $container = NULL) {
-        parent::setContainer($container);
-        if($this->container) {
-            $this->em = $this->getDoctrine()->getManager();
-        }
-        else {
-            $this->em = NULL;
-        }
-    }
-
 
     /**
      * Fetch all projects
@@ -43,11 +31,10 @@ class ProjectsController extends FOSRestController
      */
     public function getProjectsAction()
     {
-        $projects = $this->em
+        return $this->getDoctrine()
+            ->getManager()
             ->getRepository('CopterDBProjectBundle:Project')
             ->findAll();
-
-        return $projects;
     }
 
     /**
@@ -60,7 +47,7 @@ class ProjectsController extends FOSRestController
      * @return \Symfony\Component\Form\FormTypeInterface;
      */
     public function newProjectAction() {
-        return $this->createForm(new ProjectType());
+        return $this->createForm(new ProjectUriType(), new ProjectStub());
     }
 
     /**
@@ -73,20 +60,36 @@ class ProjectsController extends FOSRestController
      * @return \Symfony\Component\Form\FormTypeInterface|\FOS\RestBundle\View\RouteRedirectView;
      */
     public function postProjectAction(Request $request) {
-        $project = new Project(NULL);
-        $form = $this->createForm(new ProjectType(), $project);
+        $projectStub = new ProjectStub();
+        $form = $this->createForm(new ProjectUriType(), $projectStub);
 
-        $form->submit($request);
+        $form->handleRequest($request);
         if($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($project);
-            $em->flush();
+            $manager = $this->getProjectManager();
+            $provider = $manager->getProviderByUri($projectStub->getUri());
+            $project = $provider->createProjectFromUri($projectStub->getUri());
+            $provider->syncProjectWithProvider($project);
 
-            return $this->routeRedirectView('get_project', array('project_id' => $project->getId()));
+            $validator = $this->get('validator');
+            $errors = $validator->validate($project);
+
+            if(count($errors) === 0) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($project);
+                $em->flush();
+
+                return $this->routeRedirectView('get_project', array('project_id' => $project->getId()));
+            }
+            else {
+                // Notify the user about any project level validation errors that may have happened.
+                foreach($errors as $error) {
+                    $error = new FormError($error->getMessage());
+                    $form->addError($error);
+                }
+            }
         }
 
         return $form;
-
     }
 
     /**
@@ -100,48 +103,6 @@ class ProjectsController extends FOSRestController
      */
     public function getProjectAction($project_id) {
         return $this->getProject($project_id);
-    }
-
-    /**
-     * Displays a form for editing a project
-     *
-     * @View(templateVar="project")
-     * @Route(requirements={"_format"="html"})
-     *
-     * @param string|int $project_id The identifier of the project
-     *
-     * @return \Symfony\Component\Form\FormTypeInterface;
-     */
-    public function editProjectAction($project_id) {
-        $project = $this->getProject($project_id);
-        return $this->createForm(new ProjectType(), $project);
-
-    }
-
-    /**
-     * Updates a single project
-     *
-     * @View()
-     *
-     * @param Request $request the request object
-     * @param string|int $project_id The identifier of the project
-     *
-     * @return \Symfony\Component\Form\FormTypeInterface|\FOS\RestBundle\View\RouteRedirectView;
-     */
-    public function putProjectAction(Request $request, $project_id) {
-        $project = $this->getProject($project_id);
-        $form = $this->createForm(new ProjectType(), $project);
-
-        $form->submit($request);
-        if($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($project);
-            $em->flush();
-
-            return $this->routeRedirectView('get_project', array('project_id' => $project->getId()));
-        }
-
-        return $form;
     }
 
     /**
@@ -185,40 +146,17 @@ class ProjectsController extends FOSRestController
         return $form;
     }
 
-//
-//    /**
-//     * @Route("/{id}/populate-tags", name="project.tags")
-//     * @param Project $project
-//     */
-//    public function populateTagsAction(Project $project) {
-//        $github = $this->getGitHub();
-//        list($user, $repo) = $this->parseGithubProjectURL($project->getUrl());
-//        $tags = $github->repository()->tags($user, $repo);
-//
-//        $em = $this->getDoctrine()->getManager();
-//
-//        foreach($tags as $tag) {
-//            $projectVersion = new ProjectVersion();
-//            $projectVersion->setProject($project);
-//            $projectVersion->setTag($tag['name']);
-//            $em->persist($projectVersion);
-//        }
-//        $em->flush();
-//        return $this->debug($tags);
-//        return new Response($tags);
-//    }
-//
-//
-//    /**
-//     * @return \Github\Client
-//     */
-//    protected function getGitHub() {
-//        return $this->get('github');
-//    }
-//
-//    protected function parseGithubProjectURL($url) {
-//        if(preg_match('/github\.com\/([a-zA-Z0-9_\-]+)\/([a-zA-Z0-9_\-\.]+)\.git/', $url, $matches)) {
-//            return array(rawurldecode($matches[1]), rawurldecode($matches[2]));
-//        }
-//    }
+    protected function getProject($id) {
+        if($project = $this->getDoctrine()->getManager()->find('CopterDBProjectBundle:Project', $id)) {
+            return $project;
+        }
+        throw new NotFoundHttpException('Project not found');
+    }
+
+    /**
+     * @return ProjectTypeManager
+     */
+    protected function getProjectManager() {
+        return $this->get('copter_db_project.type_manager');
+    }
 }
