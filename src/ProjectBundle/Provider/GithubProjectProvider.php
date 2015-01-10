@@ -19,6 +19,8 @@ class GithubProjectProvider implements ProjectProvider {
         (.git)?
     $~ixu';
 
+    protected $githubClient;
+
     public function __construct() {
         $this->githubClient = new Client();
     }

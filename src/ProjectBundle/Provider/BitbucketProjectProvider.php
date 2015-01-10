@@ -51,8 +51,8 @@ class BitbucketProjectProvider implements ProjectProvider {
     }
 
     public function syncProjectWithProvider(Project $project) {
-        if(!$project instanceof GithubProject) {
-            throw new \InvalidArgumentException('Not a Github Project');
+        if(!$project instanceof BitbucketProject) {
+            throw new \InvalidArgumentException('Not a Bitbucket Project');
         }
         throw new \Exception('Not implemented');
     }
