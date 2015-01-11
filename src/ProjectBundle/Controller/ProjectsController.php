@@ -5,14 +5,14 @@ namespace OpsCopter\DB\ProjectBundle\Controller;
 use OpsCopter\DB\ProjectBundle\Entity\Project;
 use OpsCopter\DB\ProjectBundle\Entity\ProjectStub;
 use OpsCopter\DB\Common\Form\Type\ConfirmType;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as REST;
 use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\Util\Codes;
 use OpsCopter\DB\ProjectBundle\Form\Type\ProjectUriType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use OpsCopter\DB\ProjectBundle\ProjectTypeManager;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -25,7 +25,7 @@ class ProjectsController extends FOSRestController
     /**
      * Fetch all projects
      *
-     * @View()
+     * @REST\View()
      *
      * @return Project[]
      */
@@ -40,7 +40,7 @@ class ProjectsController extends FOSRestController
     /**
      * Displays a form for creating a new project
      *
-     * @View()
+     * @REST\View()
      *
      * @Route(requirements={"_format"="html"})
      *
@@ -53,7 +53,7 @@ class ProjectsController extends FOSRestController
     /**
      * Creates a new Project from the submitted data
      *
-     * @View(statusCode = Codes::HTTP_BAD_REQUEST)
+     * @REST\View(statusCode = Response::HTTP_BAD_REQUEST)
      *
      * @param Request $request the request object
      *
@@ -95,7 +95,7 @@ class ProjectsController extends FOSRestController
     /**
      * Returns a single project
      *
-     * @View(templateVar="project")
+     * @REST\View(templateVar="project")
      *
      * @param string|int $project_id The identifier of the project
      *
@@ -110,7 +110,7 @@ class ProjectsController extends FOSRestController
      *
      * @Route(requirements={"_format"="html"})
      *
-     * @View()
+     * @REST\View()
      *
      * @param string|int $project_id The identifier of the project
      *
@@ -124,7 +124,7 @@ class ProjectsController extends FOSRestController
     /**
      * Deletes a single project.
      *
-     * @View(statusCode = Codes::HTTP_BAD_REQUEST)
+     * @REST\View(statusCode = Response::HTTP_BAD_REQUEST)
      *
      * @param Request $request the request object
      * @param string|int $project_id The identifier of the project
