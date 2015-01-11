@@ -28,16 +28,19 @@ class ProjectsController extends FOSRestController
      * Fetch all projects
      *
      * @REST\View()
-     * @REST\QueryParam(
-     *  name="uri"
-     * )
+     * @REST\QueryParam(name="uri")
+     * @Rest\QueryParam(name="count", requirements="\d+", default="10")
+     * @Rest\QueryParam(name="page", requirements="\d+", default="1")
      *
      * @return Project[]
      */
     public function getProjectsAction(ParamFetcher $paramFetcher)
     {
+        $count = $paramFetcher->get('count');
+        $page = $paramFetcher->get('page');
         $criteria = Criteria::create();
-        $criteria->setMaxResults(10);
+        $criteria->setMaxResults($count);
+        $criteria->setFirstResult(($page -1) * $count);
         if($uri = $paramFetcher->get('uri')) {
             $criteria->where($criteria->expr()->eq('uri', $uri));
         }
