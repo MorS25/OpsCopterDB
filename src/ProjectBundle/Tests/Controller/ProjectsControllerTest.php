@@ -13,7 +13,6 @@ class ProjectsControllerTest extends DatabaseWebTestCase
 
     protected function preFixtures(ContainerInterface $container) {
         $this->provider = new DummyProjectProvider('github');
-        $container = static::$kernel->getContainer();
         $container->get('copter_db_project.type_manager')
             ->setProviders(array($this->provider));
     }
@@ -21,7 +20,7 @@ class ProjectsControllerTest extends DatabaseWebTestCase
     public function testJSONCreateProject() {
         $this->client->request('POST', '/projects.json', array(
             'project' => array(
-                'uri' => 'https://github.com/rbayliss/OpsCopterDB',
+                'uri' => 'https://github.com/foo/bar',
             ),
         ));
         /** @var \Symfony\Component\HttpFoundation\Response $response */

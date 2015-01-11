@@ -19,10 +19,18 @@ class CopterDBProjectExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+
+        if($container->getParameter('kernel.environment') === 'test') {
+            $container->getDefinition('copter_db_project.provider.github')
+                ->setClass('OpsCopter\DB\ProjectBundle\Tests\Fixtures\DummyProjectProvider')
+                ->setArguments(array('github'));
+
+            $container->getDefinition('copter_db_project.provider.bitbucket')
+                ->setClass('OpsCopter\DB\ProjectBundle\Tests\Fixtures\DummyProjectProvider')
+                ->setArguments(array('bitbucket'));
+        }
     }
 }

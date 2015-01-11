@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="project")
+ * @ORM\Table(name="project", uniqueConstraints={@ORM\UniqueConstraint(name="provider_identifier",columns={"provider", "identifier"})})
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="provider", type="string")
  *
