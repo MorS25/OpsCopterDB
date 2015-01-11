@@ -29,6 +29,8 @@ class GithubProjectProviderTest extends \PHPUnit_Framework_TestCase {
             array('https://github.com/foo/bar', 'https://github.com/foo/bar', 'Basic HTTPS'),
             array('git://github.com/foo/bar', 'https://github.com/foo/bar', 'Basic GIT'),
             array('http://baz@github.com/foo/bar', 'https://github.com/foo/bar', 'Basic Auth'),
+            array('http://u5er:pa55word@github.com/foo/bar', 'https://github.com/foo/bar', 'Basic Auth'),
+            array('git@github.com:foo/bar.git', 'https://github.com/foo/bar', 'Basic SSH'),
         );
     }
 
@@ -54,6 +56,8 @@ class GithubProjectProviderTest extends \PHPUnit_Framework_TestCase {
             array('http://google.com/foo/bar', 'Invalid domain'),
             array('ftp://github.com/foo/bar', 'Invalid protocol'),
             array('http://github.com/foo bar/baz', 'Invalid characters'),
+            array('http://user:password:github.com/foo/bar', 'Invalid characters'),
+            array('git@user@github.com:foo/bar.git', 'Basic SSH with invalid username'),
         );
     }
 }

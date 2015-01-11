@@ -8,13 +8,14 @@ use OpsCopter\DB\ProjectBundle\Entity\Project;
 class BitbucketProjectProvider implements ProjectProvider {
 
     const URI_PATTERN= '~^
-        (http|https|git)\://                    # Protocol
-        (([\pL\pN-]+:)?([\pL\pN-]+)@)?          # basic auth
-        bitbucket.com                           # Domain
+        (
+            ((http|https)\://(([\pL\pN-]+:)?([\pL\pN-]+)@)?bitbucket.com/)     # HTTP
+            |(git\://bitbucket.com/)                                           # GIT
+            |(git@bitbucket.com\:)                                             # SSH
+        )
+        (?P<owner>[a-zA-Z0-9_\-]+)                                          # Owner
         \/
-        (?P<owner>[a-zA-Z0-9_\-]+)              # Owner
-        \/
-        (?P<name>[a-zA-Z0-9_\-]+)         # Identifier
+        (?P<name>[a-zA-Z0-9_\-]+)                                           # Identifier
         (.git)?
     $~ixu';
 

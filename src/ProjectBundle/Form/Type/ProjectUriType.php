@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 class ProjectUriType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add('uri', 'url');
+        $builder->add('uri', 'text');
         $builder->add('submit', 'submit');
     }
 
