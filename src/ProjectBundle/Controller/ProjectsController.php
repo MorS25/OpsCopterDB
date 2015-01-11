@@ -2,6 +2,8 @@
 
 namespace OpsCopter\DB\ProjectBundle\Controller;
 
+use Doctrine\Common\Collections\Criteria;
+use FOS\RestBundle\Request\ParamFetcher;
 use OpsCopter\DB\ProjectBundle\Entity\Project;
 use OpsCopter\DB\ProjectBundle\Entity\ProjectStub;
 use OpsCopter\DB\Common\Form\Type\ConfirmType;
@@ -26,15 +28,24 @@ class ProjectsController extends FOSRestController
      * Fetch all projects
      *
      * @REST\View()
+     * @REST\QueryParam(
+     *  name="uri"
+     * )
      *
      * @return Project[]
      */
-    public function getProjectsAction()
+    public function getProjectsAction(ParamFetcher $paramFetcher)
     {
+        $criteria = Criteria::create();
+        $criteria->setMaxResults(10);
+        if($uri = $paramFetcher->get('uri')) {
+            $criteria->where($criteria->expr()->eq('uri', $uri));
+        }
+
         return $this->getDoctrine()
             ->getManager()
             ->getRepository('CopterDBProjectBundle:Project')
-            ->findAll();
+            ->matching($criteria);
     }
 
     /**

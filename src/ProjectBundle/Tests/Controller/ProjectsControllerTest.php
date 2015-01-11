@@ -40,6 +40,14 @@ class ProjectsControllerTest extends DatabaseWebTestCase
         $this->assertEquals('https://github.com/rbayliss/OpsCopterDB', $project->uri);
     }
 
+    public function testJSONGetProjectsByUri() {
+        $this->client->request('GET', '/projects.json?uri=https://github.com/rbayliss/OpsCopterDB');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response);
+        $array = json_decode($response->getContent());
+        $this->assertCount(1, $array);
+    }
+
     public function testJsonGetProjects() {
         $this->client->request('GET', '/projects.json');
         $response = $this->client->getResponse();
