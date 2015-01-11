@@ -12,9 +12,12 @@ class DummyProjectProvider implements ProjectProvider {
 
     protected $name;
 
-    public function __construct($name = 'dummy', $uriPattern = '/.*/') {
+    protected $entityClass;
+
+    public function __construct($name = 'dummy', $uriPattern = '/.*/', $entityClass = 'OpsCopter\DB\ProjectBundle\Entity\GithubProject') {
         $this->uriPattern = $uriPattern;
         $this->name = $name;
+        $this->entityClass = $entityClass;
     }
 
     public function isValidUri($uri) {
@@ -30,11 +33,12 @@ class DummyProjectProvider implements ProjectProvider {
     }
 
     public function getEntityClass() {
-        return 'OpsCopter\DB\ProjectBundle\Entity\GithubProject';
+        return $this->entityClass;
     }
 
     public function createProjectFromUri($uri) {
-        return new GithubProject($uri);
+        $class = $this->entityClass;
+        return new $class($uri);
     }
 
     public function syncProjectWithProvider(Project $project) {

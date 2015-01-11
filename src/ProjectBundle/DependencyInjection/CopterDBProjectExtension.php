@@ -26,11 +26,11 @@ class CopterDBProjectExtension extends Extension
         if($container->getParameter('kernel.environment') === 'test') {
             $container->getDefinition('copter_db_project.provider.github')
                 ->setClass('OpsCopter\DB\ProjectBundle\Tests\Fixtures\DummyProjectProvider')
-                ->setArguments(array('github'));
+                ->setArguments(array('github', '/github.com/', 'OpsCopter\DB\ProjectBundle\Entity\GithubProject'));
 
             $container->getDefinition('copter_db_project.provider.bitbucket')
                 ->setClass('OpsCopter\DB\ProjectBundle\Tests\Fixtures\DummyProjectProvider')
-                ->setArguments(array('bitbucket'));
+                ->setArguments(array('bitbucket', '/bitbucket.com/', 'OpsCopter\DB\ProjectBundle\Entity\BitbucketProject'));
         }
     }
 }
