@@ -12,7 +12,10 @@ class ProjectTest extends DatabaseKernelTestCase {
     }
 
     /**
-     * @expectedException \Doctrine\DBAL\Exception\UniqueConstraintViolationException
+     * @expectedException \Doctrine\DBAL\Exception\DriverException
+     * What we really want to check for here is a UniqueConstraintViolationException, but
+     * we have to fall back to DriverException until https://github.com/doctrine/dbal/pull/771
+     * lands
      */
     public function testCreateProjectDuplicateIdentifier() {
         $this->createProject('foo', 'foo', 'http://github.com/foo/bar');
