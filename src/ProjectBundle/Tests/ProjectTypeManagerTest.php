@@ -7,25 +7,15 @@ use OpsCopter\DB\ProjectBundle\ProjectTypeManager;
 class ProjectTypeManagerTest extends \PHPUnit_Framework_TestCase {
 
     public function testRegisterProvider() {
-        $provider = $this->getMock('OpsCopter\DB\ProjectBundle\Provider\ProjectProvider');
-        $provider->expects($this->once())
-            ->method('getName')
-            ->willReturn('foo');
+        $provider = $this->getMockProvider('foo');
 
         $manager = new ProjectTypeManager(array($provider));
         $this->assertSame($provider, $manager->getProvider('foo'));
     }
 
     public function testReplaceProvider() {
-        $provider1 = $this->getMock('OpsCopter\DB\ProjectBundle\Provider\ProjectProvider');
-        $provider1->expects($this->once())
-            ->method('getName')
-            ->willReturn('foo');
-
-        $provider2 = $this->getMock('OpsCopter\DB\ProjectBundle\Provider\ProjectProvider');
-        $provider2->expects($this->once())
-            ->method('getName')
-            ->willReturn('foo');
+        $provider1 = $this->getMockProvider('foo');
+        $provider2 = $this->getMockProvider('foo');
 
         $manager = new ProjectTypeManager(array($provider1, $provider2));
         $this->assertSame($provider2, $manager->getProvider('foo'));
@@ -41,10 +31,7 @@ class ProjectTypeManagerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testValidUriDetection() {
-        $provider = $this->getMock('OpsCopter\DB\ProjectBundle\Provider\ProjectProvider');
-        $provider->expects($this->any())
-            ->method('getName')
-            ->willReturn('foo');
+        $provider = $this->getMockProvider('foo');
         $provider->expects($this->once())
             ->method('isValidUri')
             ->willReturn(TRUE);
@@ -58,10 +45,7 @@ class ProjectTypeManagerTest extends \PHPUnit_Framework_TestCase {
      * @expectedException \InvalidArgumentException
      */
     public function testInvalidUriDetection() {
-        $provider = $this->getMock('OpsCopter\DB\ProjectBundle\Provider\ProjectProvider');
-        $provider->expects($this->any())
-            ->method('getName')
-            ->willReturn('foo');
+        $provider = $this->getMockProvider('foo');
         $provider->expects($this->once())
             ->method('isValidUri')
             ->willReturn(FALSE);
@@ -72,10 +56,7 @@ class ProjectTypeManagerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testEntityMappingConfig() {
-        $provider = $this->getMock('OpsCopter\DB\ProjectBundle\Provider\ProjectProvider');
-        $provider->expects($this->any())
-            ->method('getName')
-            ->willReturn('foo');
+        $provider = $this->getMockProvider('foo');
         $provider->expects($this->once())
             ->method('getEntityClass')
             ->willReturn('Foo\Bar\Baz');
@@ -89,10 +70,7 @@ class ProjectTypeManagerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testGetProviderForEntityClass() {
-        $provider = $this->getMock('OpsCopter\DB\ProjectBundle\Provider\ProjectProvider');
-        $provider->expects($this->any())
-            ->method('getName')
-            ->willReturn('foo');
+        $provider = $this->getMockProvider('foo');
         $provider->expects($this->once())
             ->method('getEntityClass')
             ->willReturn('Foo\Bar\Baz');
@@ -106,10 +84,7 @@ class ProjectTypeManagerTest extends \PHPUnit_Framework_TestCase {
      * @expectedException \InvalidArgumentException
      */
     public function testGetProviderForInvalidEntityClass() {
-        $provider = $this->getMock('OpsCopter\DB\ProjectBundle\Provider\ProjectProvider');
-        $provider->expects($this->any())
-            ->method('getName')
-            ->willReturn('foo');
+        $provider = $this->getMockProvider('foo');
         $provider->expects($this->once())
             ->method('getEntityClass')
             ->willReturn('Foo\Bar\Baz');
@@ -117,5 +92,13 @@ class ProjectTypeManagerTest extends \PHPUnit_Framework_TestCase {
         $manager = new ProjectTypeManager(array($provider));
 
         $manager->getProviderByEntityClass('Baz\Foo\Bar');
+    }
+
+    protected function getMockProvider($name) {
+        $provider = $this->getMock('OpsCopter\DB\ProjectBundle\Provider\ProjectProvider');
+        $provider->expects($this->any())
+            ->method('getName')
+            ->willReturn($name);
+        return $provider;
     }
 }
